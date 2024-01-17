@@ -1,0 +1,135 @@
+-----------------------------------
+Scenario 1 Ops Notes
+-----------------------------------
+
+Statically assign IP 10.10.10.2 netmask 255.255.255.0 to eth0
+
+Check current settings with: 
+	ifconfig -all
+	ip addr
+Network trouble shooting /etc/network/interfaces or other interface config file 
+	
+Persist network settings in above file by adding 
+	auto eth0
+	iface eth0 int static 	
+		address 10.10.10.3
+		netmask 255.255.255.0
+
+May need to restart service
+	/etc/init.d/networking restartEnable link
+	Ip link set eth0 up
+	
+
+##Add IP of CentOs box via: 
+##ifconfig eth0 10.10.10.2 netmask 255.255.255.0
+
+Look for cronjob in regular and system:
+
+	Crontab -e
+	Comment out crontab via #
+	comment out network_reset.sh
+	System cronjobs under:	nano /etc/crontab
+
+CHECK NMTUI network settings for Eth0, set 10.10.10.3 to 10.10.10.2
+
+REBOOT
+-----------------------------------
+SSH into CentOs 10.10.10.2
+
+Verify IPTABLES before SSHing
+
+iptables -L
+
+flush current settings with: 
+	iptables -F
+
+Change default policy of INPUT to ACCEPT via:
+	iptables -P INPUT ACCEPT
+
+Append rule under INPUT to ACCEPT from any	iptables -A INPUT -j ACCEPT
+
+ssh root@10.10.10.2password: zxcvbn2
+
+Enable routing/fowarding on Centos 10.10.10.2 
+	cat OR nano /proc/sys/net/ipv4/ip_forward
+	Status return 1 means forwarding is set, status return 0 means forwarding not enabled. 
+
+---------------------------------------
+SSH into Ubuntu server 10.10.10.4 via Kali box 
+
+creds root/asdfgh3systemctl -l to see running services systemctl enable smbd to ENABLEsystemctl restart to restart 
+
+create cronjob to take status of ens160 every 5 mins and put it into a file called if-status in /root/desktop 
+Look in IP ADDR or ip addr show ens160
+*/5 * * * * ip addr show ens160 >> /root/Desktop/if-status
+
+-------------------------------------
+rdesktop into 10.10.10.5 
+
+rdesktop IP
+yes
+creds administrator/asdfgh3
+
+create new user on CLI with: 
+	net user username password /add 	creds pretest00/zxcvbn2
+adding a user to a group: 
+	net localgroup Administrators pretest00 /add
+check if they added into the right group with: 
+	net localgroup Administrators
+see all grous with: 
+	Net localgroup
+
+Create folder
+	mkdir c:\Windows\Temp\Pretest
+Give new user full privileges
+	icacls C:\Windows\Temp\PRETEST /grant pretest00X:(OI)(CI)F /T
+
+	{might need to give privileges to TEMP, or run cmd as Administrator]Create text file in PRETEST folder
+	echo Student 007 was here > {file name}
+To create share drive	net share (drivename)=C:\Windows\Temp\Pretest /grant:everyone,FULL
+MOUNT linux side via:
+	mkdir /mnt/temp
+ 	mount -t cifs -o username=administrator,password=asdfgh3,port=1234 //127.0.0.1/temp /mnt/temp 
+
+---------------------------------------------
+TUNNELING 
+
+from 10.10.10.3 through 10.10.10.2 into 10.10.20.2
+
+	{ssh -L localhost:localport:remotehost:remoteport}	ssh -L localhost:1234:10.10.20.2:3389 root@10.10.10.2		will prompt for password, will show logged in as Centos, means tunnel is up as long as you stay logged in. 
+
+	-N in front of user will not show loggon as Centos, it will do nothing which means tunnel is up
+	Check to see if tunnel is up through /lvnp
+
+rdesktop to self rdesktop:
+	desktop localhost1234
+new tunnel on the port for smd 445
+	ssh -L localhost:4455:10.10.20.2:445 root@10.10.10.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
