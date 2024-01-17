@@ -5,9 +5,7 @@ Scenario 1 Ops Notes
 -----------------------------------
 
 
-
 Statically assign IP 10.10.10.2 netmask 255.255.255.0 to eth0
-
 
 
 Check current settings with: 
@@ -18,7 +16,6 @@ Check current settings with:
 Network trouble shooting /etc/network/interfaces or other interface config file 
 
 	
-
 Persist network settings in above file by adding 
 
 	auto eth0
@@ -61,19 +58,15 @@ REBOOT
 SSH into CentOs 10.10.10.2
 
 
-
 Verify IPTABLES before SSHing
-
 
 
 iptables -L
 
 
-
 flush current settings with: 
 
 	iptables -F
-
 
 
 Change default policy of INPUT to ACCEPT via:
@@ -124,13 +117,11 @@ Look in IP ADDR or ip addr show ens160
 rdesktop into 10.10.10.5 
 
 
-
 rdesktop IP
 
 yes
 
 creds administrator/asdfgh3
-
 
 
 create new user on CLI with: 
@@ -207,8 +198,6 @@ new tunnel on the port for smd 445
 
 
 mount -t cifs -o username=pretest007,password=zxcvbn2,port=1234 //127.0.0.1/PRETEST /mnt/temp
-
-
 
 
 
