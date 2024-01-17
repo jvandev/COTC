@@ -111,6 +111,7 @@ Look in IP ADDR or ip addr show ens160
 
 */5 * * * * ip addr show ens160 >> /root/Desktop/if-status
 
+{min hour dom month dow CMD}
 
 -------------------------------------
 
