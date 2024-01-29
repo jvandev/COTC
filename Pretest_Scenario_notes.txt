@@ -137,7 +137,6 @@ To create share drive
 MOUNT linux side via:
 
 	mkdir /mnt/temp
- 	mount -t cifs -o username=administrator,password=asdfgh3,port=1234 //127.0.0.1/temp /mnt/temp 
 
 ---------------------------------------------
 
@@ -163,7 +162,8 @@ new tunnel on the port for smd 445
 
 	ssh -L localhost:4455:10.10.20.2:445 root@10.10.10.2
 
-mount -t cifs -o username=pretest007,password=zxcvbn2,port=4455 //127.0.0.1/PRETEST /mnt/temp
+Mount to Windows Share
+	mount -t cifs -o username=pretest007,password=zxcvbn2,port=4455 //127.0.0.1/PRETEST /mnt/temp
 
 
 -----------------------Exploitation----------------------
