@@ -3,17 +3,21 @@
 Scenario 1 Ops Notes
 
 -----------------------------------
+Setup
+	msfdb init
+	service postgresql restart
 
+----------------------------------
 
 Statically assign IP 10.10.10.2 netmask 255.255.255.0 to eth0
-
 
 Check current settings with: 
 
 	ifconfig -all
 	ip addr
 
-Network trouble shooting /etc/network/interfaces or other interface config file 
+Network trouble shooting 
+	nano /etc/network/interfaces (or other interface config file )
 
 	
 Persist network settings in above file by adding 
@@ -24,32 +28,20 @@ Persist network settings in above file by adding
 		address 10.10.10.3
 		netmask 255.255.255.0
 
-
 May need to restart service
 	/etc/init.d/networking restart
 
 Enable link
 	Ip link set eth0 up
 	
-
-##Add IP of CentOs box via: 
-
-##ifconfig eth0 10.10.10.2 netmask 255.255.255.0
-
-
-
 Look for cronjob in regular and system:
 
-
 	Crontab -e
-	Comment out crontab via #
-	comment out network_reset.sh
+	Comment out network_reseth.sh via #
 	System cronjobs under:
-	nano /etc/crontab
-
+		nano /etc/crontab
 
 CHECK NMTUI network settings for Eth0, set 10.10.10.3 to 10.10.10.2
-
 
 REBOOT
 
@@ -57,17 +49,13 @@ REBOOT
 
 SSH into CentOs 10.10.10.2
 
-
 Verify IPTABLES before SSHing
 
-
 iptables -L
-
 
 flush current settings with: 
 
 	iptables -F
-
 
 Change default policy of INPUT to ACCEPT via:
 
@@ -84,57 +72,45 @@ password: zxcvbn2
 
 Enable routing/fowarding on Centos 10.10.10.2 
 
-
 	cat OR nano /proc/sys/net/ipv4/ip_forward
 
 	Status return 1 means forwarding is set, status return 0 means forwarding not enabled. 
 
-
 ---------------------------------------
-
 
 SSH into Ubuntu server 10.10.10.4 via Kali box 
 
 
-
 creds root/asdfgh3
 systemctl -l to see running services 
-systemctl enable smbd to ENABLE
-systemctl restart to restart 
-
+To ENABLE smbd
+	systemctl enable smbd
+To restart a service
+	systemctl [service] restart 
 
 create cronjob to take status of ens160 every 5 mins and put it into a file called if-status in /root/desktop 
 
+	IP ADDR or ip addr show ens160
+	*/5 * * * * ip addr show ens160 >> /root/Desktop/if-status
 
-Look in IP ADDR or ip addr show ens160
-
-
-*/5 * * * * ip addr show ens160 >> /root/Desktop/if-status
-
-{min hour dom month dow CMD}
+	{min hour dom month dow CMD}
 
 -------------------------------------
 
 rdesktop into 10.10.10.5 
+	rdesktop IP
+	yes
 
-
-rdesktop IP
-
-yes
-
-creds administrator/asdfgh3
-
+	creds administrator/asdfgh3
 
 create new user on CLI with: 
 
-	net user username password /add 
+	net user [username] [password] /add 
 	creds pretest00/zxcvbn2
-
 
 adding a user to a group: 
 
 	net localgroup Administrators pretest00 /add
-
 
 check if they added into the right group with: 
 
@@ -143,7 +119,6 @@ check if they added into the right group with:
 see all grous with: 
 	Net localgroup
 
-
 Create folder
 	mkdir c:\Windows\Temp\Pretest
 
@@ -151,7 +126,6 @@ Give new user full privileges
 	icacls C:\Windows\Temp\PRETEST /grant pretest00X:(OI)(CI)F /T
 
 	{might need to give privileges to TEMP, or run cmd as Administrator]
-
 
 Create text file in PRETEST folder
 	echo Student 007 was here > {file name}
@@ -162,21 +136,14 @@ To create share drive
 
 MOUNT linux side via:
 
-
 	mkdir /mnt/temp
-
  	mount -t cifs -o username=administrator,password=asdfgh3,port=1234 //127.0.0.1/temp /mnt/temp 
-
-
 
 ---------------------------------------------
 
 TUNNELING 
 
-
-
 from 10.10.10.3 through 10.10.10.2 into 10.10.20.2
-
 
 
 	{ssh -L localhost:localport:remotehost:remoteport}
@@ -194,13 +161,9 @@ rdesktop to self rdesktop:
 
 new tunnel on the port for smd 445
 
-
 	ssh -L localhost:4455:10.10.20.2:445 root@10.10.10.2
 
-
 mount -t cifs -o username=pretest007,password=zxcvbn2,port=4455 //127.0.0.1/PRETEST /mnt/temp
-
-
 
 
 -----------------------Exploitation----------------------
@@ -237,7 +200,30 @@ Gather the Following Info
 Background
 	Background
 
+*****************************************
+Add static IP {won't survive reboot}
+	ip address add {XXX.XXX.XXX.XXX}/24 brd + dev [NIC]
 
+Add static route
+	ip route add {DST network IP} mask {netmask} via {gateway IP}
+	[windows] route add -net [external subnet] netmask [netmask] gw [gateway with 2 nics]
+
+Add default route
+	ip route add {default} via {gateway IP}
+
+Edit Syslog
+	nano /etc/syslog.conf
+	facility.priority			[log location]
+	facility.priority;facility.none		[log location]   ##this matches the first, excepting the second
+	facility.priority			@//[log server IP]/[log location]
+Scan for syslog
+	find / -name *syslog.conf -maxdepth 2 | grep syslog
+
+Send logger command
+	logger 
+Logger Resources
+	https://linuxhandbook.com/syslog-guide/
+	thegeekdiary.com/logger-command-examples-in-linux/
 
 
 
