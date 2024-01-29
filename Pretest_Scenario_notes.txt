@@ -227,7 +227,11 @@ Logger Resources
 	thegeekdiary.com/logger-command-examples-in-linux/
 
 
-
+Useful Metasploit Modules
+	http/dir_scanner
+	http/dir/listing
+	post/linux/gather/enum_configs
+	post/linux/gather/enum_network
 
 
 
