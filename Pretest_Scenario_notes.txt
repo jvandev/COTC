@@ -6,6 +6,7 @@ Scenario 1 Ops Notes
 Setup
 	msfdb init
 	service postgresql restart
+	check with db_status (from inside msfconsole)
 
 ----------------------------------
 
