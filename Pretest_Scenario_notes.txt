@@ -219,8 +219,9 @@ Edit Syslog
 Scan for syslog
 	find / -name *syslog.conf -maxdepth 2 | grep syslog
 
-Send logger command
-	logger 
+Send logger command to create test log
+	logger -p [facility.priority] {message}
+
 Logger Resources
 	https://linuxhandbook.com/syslog-guide/
 	thegeekdiary.com/logger-command-examples-in-linux/
