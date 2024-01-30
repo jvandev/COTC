@@ -222,6 +222,7 @@ Scan for syslog
 
 Send logger command to create test log
 	logger -p [facility.priority] {message}
+	logger -n [remote server] {message}
 
 Logger Resources
 	https://linuxhandbook.com/syslog-guide/
